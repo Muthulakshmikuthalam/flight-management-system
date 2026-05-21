@@ -110,10 +110,10 @@ test123
 
 ## Production URL
 
-(Add Vercel deployment link here)
+https://flight-management-system-lyart-eta.vercel.app/
 
 ---
 
 ## Lighthouse PWA Screenshot
 
-(Add screenshot here)
+![alt text](image.png)
