@@ -202,15 +202,15 @@ Logout
 
           <div className="flex items-center gap-5">
 
-            <Bell className="h-5 w-5" />
+            {/* <Bell className="h-5 w-5" /> */}
 
             <div className="flex items-center gap-2">
 
               <span className="font-medium">
-                Muthulakshmi
+                MuthulakshmiKuthalam
               </span>
 
-              <ChevronDown className="h-4 w-4" />
+              {/* <ChevronDown className="h-4 w-4" /> */}
 
             </div>
 
@@ -223,7 +223,7 @@ Logout
 
           <h1 className="text-3xl font-bold">
 
-            Welcome back 👋
+            Welcome Excursionist  👋
 
           </h1>
 
