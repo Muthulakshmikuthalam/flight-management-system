@@ -2,13 +2,25 @@
 
 import { useEffect,useState } from "react"
 
+type Flight={
+
+id:string
+flight_no:string
+origin:string
+destination:string
+price:number
+
+}
+
 export default function Results(){
 
-const [flights,setFlights]=useState<any[]>([])
+const [flights,setFlights]=
+useState<Flight[]>([])
 
 useEffect(()=>{
 
 const data=
+
 localStorage.getItem(
 "searchResults"
 )
@@ -59,7 +71,7 @@ className="border p-5 mb-5 rounded"
 <p>
 
 Price:
-₹{flight.base_price}
+₹{flight.price}
 
 </p>
 
@@ -74,23 +86,9 @@ Duration:
 className="border p-2 mt-2"
 >
 
-<option>
-
-Economy
-
-</option>
-
-<option>
-
-Business
-
-</option>
-
-<option>
-
-First Class
-
-</option>
+<option>Economy</option>
+<option>Business</option>
+<option>First Class</option>
 
 </select>
 

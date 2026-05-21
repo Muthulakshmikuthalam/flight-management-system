@@ -3,94 +3,190 @@
 import { useEffect, useState } from "react"
 import { supabase } from "../../lib/supabase"
 import { useFlightStore } from "../../store/flightStore"
+
 import {
-  Armchair,
-  ShieldCheck,
-  AlertCircle
-} from "lucide-react"
+Armchair,
+ShieldCheck,
+AlertCircle
+}
 
-export default function SeatSelection() {
+from "lucide-react"
 
-  const [seats,setSeats]=useState<any[]>([])
+type Seat={
 
-  const {
-    selectedSeat,
-    setSelectedSeat,
-    selectedFlight
-  }=useFlightStore()
+id:string
+seat_number:string
+is_available:boolean
+flight_id:string
 
-  useEffect(()=>{
+}
 
-    fetchSeats()
+export default function SeatSelection(){
 
-  },[])
+const [seats,setSeats]=
+useState<Seat[]>([])
 
+const {
 
-  async function fetchSeats(){
+selectedSeat,
+setSelectedSeat,
+selectedFlight
 
-    if(!selectedFlight){
-
-      console.log("No flight selected")
-      return
-
-    }
-
-    const {data,error}=await supabase
-
-      .from("seats")
-
-      .select("*")
-
-      .eq(
-        "flight_id",
-        selectedFlight.id
-      )
-
-    if(error){
-
-      console.log(error)
-
-    }
-
-    else{
-
-      setSeats(data || [])
-
-    }
-
-  }
+}=useFlightStore()
 
 
-  function getSeatByCoordinate(
-    rowNum:number,
-    letter:string
-  ){
+useEffect(()=>{
 
-    return seats.find(
-
-      (s)=>
-
-      s.seat_number===
-      `${rowNum}${letter}`
-
-    )
-
-  }
+fetchSeats()
 
 
-  const rowNumbers=
+const channel=
 
-  Array.from(
-    {length:14},
-    (_,i)=>i+1
-  )
+supabase
 
-  const leftGroup=["A","B","C"]
+.channel("seat-live")
 
-  const rightGroup=["D","E","F"]
+.on(
+
+"postgres_changes",
+
+{
+
+event:"UPDATE",
+
+schema:"public",
+
+table:"seats"
+
+},
+
+()=>{
+
+fetchSeats()
+
+}
+
+)
+
+.subscribe()
 
 
-  return(
+return()=>{
+
+supabase.removeChannel(
+channel
+)
+
+}
+
+},[])
+
+
+
+async function fetchSeats(){
+
+if(!selectedFlight){
+
+console.log(
+"No flight selected"
+)
+
+return
+
+}
+
+
+const {data,error}=
+
+await supabase
+
+.from("seats")
+
+.select("*")
+
+.eq(
+
+"flight_id",
+
+selectedFlight.id
+
+)
+
+
+if(error){
+
+console.log(error)
+
+}else{
+
+setSeats(data || [])
+
+}
+
+}
+
+
+
+function selectSeat(
+
+seatName:string
+
+){
+
+// optimistic update
+
+setSelectedSeat(
+seatName
+)
+
+}
+
+
+
+function getSeatByCoordinate(
+
+rowNum:number,
+
+letter:string
+
+){
+
+return seats.find(
+
+(s)=>
+
+s.seat_number===
+
+`${rowNum}${letter}`
+
+)
+
+}
+
+
+
+const rowNumbers=
+
+Array.from(
+
+{length:14},
+
+(_,i)=>i+1
+
+)
+
+
+const leftGroup=
+
+["A","B","C"]
+
+
+const rightGroup=
+
+["D","E","F"]
+
+
+return(
 
 <div className="min-h-screen bg-slate-50 py-10 px-4">
 
@@ -99,9 +195,17 @@ export default function SeatSelection() {
 
 <div className="lg:col-span-5 p-8 bg-slate-50">
 
-<div className={`p-4 rounded-2xl mb-8 flex items-center gap-3
+<div className={`
+
+p-4
+rounded-2xl
+mb-8
+flex
+items-center
+gap-3
 
 ${
+
 selectedSeat
 
 ?
@@ -129,6 +233,7 @@ selectedSeat
 <AlertCircle className="h-5 w-5"/>
 
 }
+
 
 <span className="text-xs font-bold">
 
@@ -164,8 +269,7 @@ Flight:
 
 {
 
-selectedFlight
-?.flight_no
+selectedFlight?.flight_no
 
 ||
 
@@ -252,6 +356,7 @@ letter
 )
 
 const seatName=
+
 `${rowNum}${letter}`
 
 const isSelected=
@@ -282,7 +387,7 @@ disabled={!isAvailable}
 
 onClick={()=>
 
-setSelectedSeat(
+selectSeat(
 seatName
 )
 
@@ -337,13 +442,11 @@ isAvailable
 }
 
 
-
 <div className="text-xs font-bold text-slate-300">
 
 {rowNum}
 
 </div>
-
 
 
 {
@@ -360,6 +463,7 @@ letter
 )
 
 const seatName=
+
 `${rowNum}${letter}`
 
 const isSelected=
@@ -390,7 +494,7 @@ disabled={!isAvailable}
 
 onClick={()=>
 
-setSelectedSeat(
+selectSeat(
 seatName
 )
 

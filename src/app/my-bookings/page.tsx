@@ -14,7 +14,18 @@ from "lucide-react"
 
 export default function MyBookings() {
 
-const [bookings,setBookings]=useState<any[]>([])
+type Booking={
+
+id:string
+pnr_code:string
+seat_no:string
+total_price:number
+status:string
+
+}
+
+const [bookings,setBookings]=
+useState<Booking[]>([])
 const [loading,setLoading]=useState(false)
 
 useEffect(()=>{

@@ -49,7 +49,7 @@ passengerForm.nationality || ""
 
 }
 
-},[])
+},[passengerForm])
 
 
 
@@ -86,9 +86,9 @@ Math.random()*900000
 
 setPassengerForm({
 
-name,
-passport,
-nationality
+name:name,
+passport_no:passport,
+nationality:nationality
 
 })
 
@@ -104,7 +104,7 @@ const {error}=await supabase
 status:"Confirmed",
 
 total_price:
-selectedFlight?.base_price || 5000,
+selectedFlight?.price || 5000,
 
 pnr_code:pnr,
 
@@ -161,7 +161,6 @@ url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1920&auto=
 
 >
 
-
 <div className="w-full max-w-md backdrop-blur-xl bg-white/75 rounded-3xl p-8 shadow-2xl">
 
 <div className="text-center mb-6">
@@ -182,7 +181,6 @@ Passenger Details
 
 
 <div className="space-y-4">
-
 
 <div className="relative">
 
@@ -209,7 +207,6 @@ className="w-full border rounded-xl py-3 pl-10"
 </div>
 
 
-
 <div className="relative">
 
 <Landmark className="absolute left-3 top-4 h-4 w-4 text-slate-400"/>
@@ -233,7 +230,6 @@ className="w-full border rounded-xl py-3 pl-10"
 />
 
 </div>
-
 
 
 <div className="relative">
@@ -263,7 +259,6 @@ className="w-full border rounded-xl py-3 pl-10"
 </div>
 
 
-
 <div className="bg-slate-100 p-4 rounded-xl mt-6">
 
 <p>
@@ -286,12 +281,11 @@ Seat:
 
 Price:
 
-₹{selectedFlight?.base_price}
+₹{selectedFlight?.price}
 
 </p>
 
 </div>
-
 
 
 <button

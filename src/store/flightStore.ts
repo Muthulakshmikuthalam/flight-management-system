@@ -1,21 +1,60 @@
 "use client"
 
-import {create} from "zustand"
-import {persist} from "zustand/middleware"
+import { create } from "zustand"
+import { persist } from "zustand/middleware"
+
+type SearchQuery={
+
+origin:string
+destination:string
+
+}
+
+type Passenger={
+
+name:string
+passport_no:string
+nationality:string
+
+}
+
+interface Flight{
+
+id?:string
+flight_no?:string
+origin?:string
+destination?:string
+price?:number
+
+}
 
 interface FlightStore{
 
-searchQuery:any
-selectedFlight:any
-selectedSeat:string
-bookingStep:number
-passengerForm:any
+searchQuery:SearchQuery | null
 
-setSearchQuery:(data:any)=>void
-setSelectedFlight:(data:any)=>void
-setSelectedSeat:(seat:string)=>void
-setBookingStep:(step:number)=>void
-setPassengerForm:(data:any)=>void
+selectedFlight:Flight | null
+
+selectedSeat:string
+
+bookingStep:number
+
+passengerForm:Passenger
+
+
+setSearchQuery:
+(data:SearchQuery)=>void
+
+setSelectedFlight:
+(data:Flight)=>void
+
+setSelectedSeat:
+(seat:string)=>void
+
+setBookingStep:
+(step:number)=>void
+
+setPassengerForm:
+(data:Passenger)=>void
 
 resetStore:()=>void
 
@@ -29,7 +68,12 @@ persist(
 
 (set)=>({
 
-searchQuery:null,
+searchQuery:{
+
+origin:"",
+destination:""
+
+},
 
 selectedFlight:null,
 
@@ -37,7 +81,13 @@ selectedSeat:"",
 
 bookingStep:1,
 
-passengerForm:{},
+passengerForm:{
+
+name:"",
+passport_no:"",
+nationality:""
+
+},
 
 
 setSearchQuery:(data)=>
@@ -85,12 +135,31 @@ passengerForm:data
 }),
 
 
-resetStore:()=>set({
+resetStore:()=>
+
+set({
+
 selectedFlight:null,
+
 selectedSeat:"",
-passengerForm:{},
-searchQuery:null,
-bookingStep:1
+
+searchQuery:{
+
+origin:"",
+destination:""
+
+},
+
+bookingStep:1,
+
+passengerForm:{
+
+name:"",
+passport_no:"",
+nationality:""
+
+}
+
 })
 
 }),
@@ -100,16 +169,30 @@ bookingStep:1
 
 name:"flight-storage",
 
+
 partialize:(state)=>({
-searchQuery:state.searchQuery,
-selectedFlight:state.selectedFlight,
-selectedSeat:state.selectedSeat,
-bookingStep:state.bookingStep,
+
+searchQuery:
+state.searchQuery,
+
+selectedFlight:
+state.selectedFlight,
+
+selectedSeat:
+state.selectedSeat,
+
+bookingStep:
+state.bookingStep,
+
 
 passengerForm:{
-name:state.passengerForm.name,
+
+name:
+state.passengerForm.name,
+
 nationality:
 state.passengerForm.nationality
+
 }
 
 })
