@@ -31,9 +31,9 @@ A Flight Booking and Management web application built with Next.js, Supabase, Zu
 Create `.env.local`
 
 ```env
-NEXT_PUBLIC_SUPABASE_URL=your_url
+NEXT_PUBLIC_SUPABASE_URL= https://grctabgksgmvqcsrhpvi.supabase.co
 
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdyY3RhYmdrc2dtdnFjc3JocHZpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxOTI3NzcsImV4cCI6MjA5NDc2ODc3N30.NS6nBnZMZ-oKpYXaXlBeW3HcNpjO3b927ieu8C6BQg0
 ```
 
 ---
@@ -116,4 +116,16 @@ https://flight-management-system-lyart-eta.vercel.app/
 
 ## Lighthouse PWA Screenshot
 
-![alt text](image.png)
+C:\Users\muthu\flight-management\public\img-1.png
+## Lighthouse Report
+
+Performance score generated using Chrome Lighthouse.
+
+## PWA Features Implemented
+
+- Installable app
+- Offline fallback page
+- Cached flight search
+- Cached My Bookings
+- Manifest configured
+- Service worker via next-pwa
