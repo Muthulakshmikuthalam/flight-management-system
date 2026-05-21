@@ -259,7 +259,7 @@ Seat:
 
 Price:
 
-₹{selectedFlight?.base_price}
+₹{selectedFlight?.price}
 
 </p>
 
