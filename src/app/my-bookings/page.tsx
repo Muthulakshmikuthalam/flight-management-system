@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect,useState } from "react"
 import { supabase } from "../../lib/supabase"
 
 import {
@@ -12,8 +12,6 @@ Plane
 }
 from "lucide-react"
 
-export default function MyBookings() {
-
 type Booking={
 
 id:string
@@ -21,12 +19,18 @@ pnr_code:string
 seat_no:string
 total_price:number
 status:string
+created_at:string
 
 }
 
+export default function MyBookings(){
+
 const [bookings,setBookings]=
 useState<Booking[]>([])
-const [loading,setLoading]=useState(false)
+
+const [loading,setLoading]=
+useState(false)
+
 
 useEffect(()=>{
 
@@ -55,7 +59,10 @@ setLoading(false)
 
 if(error){
 
-console.log("Offline mode:",error)
+console.log(
+"Offline mode:",
+error
+)
 
 const cached=
 
@@ -75,6 +82,7 @@ return
 
 }
 
+
 setBookings(data || [])
 
 
@@ -90,15 +98,21 @@ JSON.stringify(data)
 
 
 
-async function cancelBooking(id:string){
+async function cancelBooking(
+
+id:string
+
+){
 
 const confirmDelete=
 
 window.confirm(
+
 "Cancel this booking?"
+
 )
 
-if(!confirmDelete) return
+if(!confirmDelete)return
 
 
 const {error}=await supabase
@@ -134,15 +148,62 @@ getBookings()
 
 
 
-async function rescheduleBooking(id:string){
+async function rescheduleBooking(
+
+booking:Booking
+
+){
 
 const confirmChange=
 
 window.confirm(
+
 "Reschedule this booking?"
+
 )
 
-if(!confirmChange) return
+if(!confirmChange)return
+
+
+const bookingTime=
+
+new Date(
+booking.created_at
+)
+
+const now=
+
+new Date()
+
+
+const diffHours=
+
+(
+
+bookingTime.getTime()
+
+-
+
+now.getTime()
+
+)
+
+/
+
+(1000*60*60)
+
+
+if(diffHours<2){
+
+alert(
+
+"Reschedule not allowed within 2 hours"
+
+)
+
+return
+
+}
 
 
 const {error}=await supabase
@@ -155,7 +216,13 @@ status:"Rescheduled"
 
 })
 
-.eq("id",id)
+.eq(
+
+"id",
+
+booking.id
+
+)
 
 
 if(error){
@@ -198,7 +265,6 @@ Loading...
 </div>
 
 )}
-
 
 
 <div className="grid gap-5">
@@ -258,7 +324,9 @@ PNR:
 
 Seat:
 {" "}
-{booking.seat_no || "Not assigned"}
+{booking.seat_no ||
+
+"Not assigned"}
 
 </p>
 
@@ -270,7 +338,6 @@ Price:
 </p>
 
 </div>
-
 
 
 <div className="mt-4">
@@ -331,7 +398,6 @@ Cancelled
 </div>
 
 
-
 <div className="flex gap-3">
 
 
@@ -344,7 +410,7 @@ booking.status==="Cancelled"
 onClick={()=>
 
 rescheduleBooking(
-booking.id
+booking
 )
 
 }
@@ -384,7 +450,6 @@ className="bg-red-100 px-4 py-3 rounded-xl disabled:opacity-50"
 Cancel
 
 </button>
-
 
 </div>
 

@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { supabase } from "../../lib/supabase"
 import { useFlightStore } from "../../store/flightStore"
 
@@ -9,7 +10,6 @@ Armchair,
 ShieldCheck,
 AlertCircle
 }
-
 from "lucide-react"
 
 type Seat={
@@ -22,6 +22,8 @@ flight_id:string
 }
 
 export default function SeatSelection(){
+
+const router=useRouter()
 
 const [seats,setSeats]=
 useState<Seat[]>([])
@@ -37,8 +39,14 @@ selectedFlight
 
 useEffect(()=>{
 
-fetchSeats()
+if(!selectedFlight){
 
+router.push("/search")
+return
+
+}
+
+fetchSeats()
 
 const channel=
 
@@ -79,7 +87,7 @@ channel
 
 }
 
-},[])
+},[selectedFlight])
 
 
 
@@ -87,14 +95,9 @@ async function fetchSeats(){
 
 if(!selectedFlight){
 
-console.log(
-"No flight selected"
-)
-
 return
 
 }
-
 
 const {data,error}=
 
@@ -132,8 +135,6 @@ function selectSeat(
 seatName:string
 
 ){
-
-// optimistic update
 
 setSelectedSeat(
 seatName
@@ -335,125 +336,32 @@ rowNumbers.map(
 (rowNum)=>(
 
 <div
-
 key={rowNum}
-
 className="grid grid-cols-7 gap-1 items-center"
-
 >
 
 {
 
-leftGroup.map(
+[...leftGroup,...rightGroup].map(
 
 (letter)=>{
 
-const seat=
-
-getSeatByCoordinate(
-rowNum,
-letter
-)
-
-const seatName=
-
-`${rowNum}${letter}`
-
-const isSelected=
-
-selectedSeat===seatName
-
-
-const isAvailable=
-
-seat
-
-?
-
-seat.is_available
-
-:
-
-true
-
+if(letter==="D"){
 
 return(
 
-<button
-
-key={seatName}
-
-disabled={!isAvailable}
-
-onClick={()=>
-
-selectSeat(
-seatName
-)
-
-}
-
-title={seatName}
-
-className={`
-
-aspect-square
-rounded-xl
-flex
-items-center
-justify-center
-
-${
-
-isSelected
-
-?
-
-"bg-blue-600 text-white"
-
-:
-
-isAvailable
-
-?
-
-"bg-emerald-50"
-
-:
-
-"bg-slate-200"
-
-}
-
-`}
-
+<div
+key="row"
+className="text-xs font-bold text-slate-300 text-center"
 >
-
-<Armchair className="h-4 w-4"/>
-
-</button>
-
-)
-
-}
-
-)
-
-}
-
-
-<div className="text-xs font-bold text-slate-300">
 
 {rowNum}
 
 </div>
 
+)
 
-{
-
-rightGroup.map(
-
-(letter)=>{
+}
 
 const seat=
 
@@ -463,13 +371,10 @@ letter
 )
 
 const seatName=
-
 `${rowNum}${letter}`
 
 const isSelected=
-
 selectedSeat===seatName
-
 
 const isAvailable=
 
@@ -492,15 +397,7 @@ key={seatName}
 
 disabled={!isAvailable}
 
-onClick={()=>
-
-selectSeat(
-seatName
-)
-
-}
-
-title={seatName}
+onClick={()=>selectSeat(seatName)}
 
 className={`
 
