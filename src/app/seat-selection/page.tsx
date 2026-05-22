@@ -140,6 +140,7 @@ setSelectedSeat(
 seatName
 )
 
+  localStorage.setItem("selectedSeat", seatName)
 }
 
 

@@ -105,7 +105,7 @@ onClick={()=>{
 setSelectedFlight(
 flight
 )
-
+localStorage.setItem("selectedFlight", JSON.stringify(flight))
 window.location.href=
 "/seat-selection"
 
