@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect,useState } from "react"
+import { useEffect, useState } from "react"
+import { useFlightStore } from "../../store/flightStore"
 
 type Flight={
 
@@ -16,6 +17,10 @@ export default function Results(){
 
 const [flights,setFlights]=
 useState<Flight[]>([])
+
+const {
+setSelectedFlight
+}=useFlightStore()
 
 useEffect(()=>{
 
@@ -92,14 +97,27 @@ className="border p-2 mt-2"
 
 </select>
 
-<a
-href="/booking"
+
+<button
+
+onClick={()=>{
+
+setSelectedFlight(
+flight
+)
+
+window.location.href=
+"/seat-selection"
+
+}}
+
 className="bg-green-500 text-white p-2 rounded ml-4"
+
 >
 
 Book
 
-</a>
+</button>
 
 </div>
 
