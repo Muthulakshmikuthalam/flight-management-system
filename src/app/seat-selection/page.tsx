@@ -39,12 +39,12 @@ selectedFlight
 
 useEffect(()=>{
 
-if(!selectedFlight){
+// if(!selectedFlight){
 
-router.push("/search")
-return
+// router.push("/search")
+// return
 
-}
+// }
 
 fetchSeats()
 
